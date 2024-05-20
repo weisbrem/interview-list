@@ -1,8 +1,14 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import type { ComputedRef } from 'vue'
+import { useRouter } from 'vue-router'
+import { getAuth, signOut } from 'firebase/auth'
+import { useToast } from 'primevue/usetoast'
+
 import { useUserStore } from '@/stores/user'
 
+const router = useRouter()
+const toast = useToast()
 const userStore = useUserStore()
 
 interface IMenuItem {
@@ -38,6 +44,18 @@ const items = ref<IMenuItem[]>([
     show: computed(() => !!userStore.userId)
   }
 ])
+
+const signOutMethod = async () => {
+  try {
+    await signOut(getAuth())
+
+    router.push({ name: 'Auth' })
+  } catch (error) {
+    if (error instanceof Error) {
+      toast.add({ severity: 'error', summary: 'Error', detail: error.message, life: 3000 })
+    }
+  }
+}
 </script>
 
 <template>
@@ -55,7 +73,7 @@ const items = ref<IMenuItem[]>([
     <template #end>
       <span
         v-if="userStore.userId"
-        @click="userStore.userId = ''"
+        @click="signOutMethod"
         class="flex align-items-center menu-exit"
       >
         <span class="pi pi-sign-out p-menuitem-icon" />
