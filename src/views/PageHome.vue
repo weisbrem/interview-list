@@ -2,13 +2,15 @@
 import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { v4 as uuidv4 } from 'uuid'
-import { getAuth } from 'firebase/auth'
 import { getFirestore, setDoc, doc } from 'firebase/firestore'
+
+import { useUserStore } from '@/stores/user'
 
 import type { IInterview } from '@/types/interview'
 
 const db = getFirestore()
 const router = useRouter()
+const userStore = useUserStore()
 
 const company = ref<string>('')
 const vacancyLink = ref<string>('')
@@ -37,7 +39,7 @@ const addNewInterview = async () => {
     contactPhone: contactPhone.value
   }
 
-  const userId = getAuth().currentUser?.uid
+  const userId = userStore.userId
 
   if (userId) {
     await setDoc(doc(db, `users/${userId}/interviews`, payload.id), payload)
