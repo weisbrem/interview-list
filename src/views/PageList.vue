@@ -13,7 +13,7 @@ import { useToast } from 'primevue/usetoast'
 import { useConfirm } from 'primevue/useconfirm'
 import { useUserStore } from '@/stores/user'
 
-import { IInterview } from '@/types/interview'
+import type { IInterview } from '@/types/interview.interface'
 
 const db = getFirestore()
 const toast = useToast()
