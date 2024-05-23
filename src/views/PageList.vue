@@ -90,7 +90,7 @@ onMounted(async () => {
       <app-column field="vacancyLink" header="Вакансия">
         <template #body="slotProps">
           <a :href="slotProps.data.vacancyLink" target="_blank" rel="noopener noreferrer">
-            {{ slotProps.data.vacancyLink }}</a
+            Ссылка на вакансию</a
           >
         </template>
       </app-column>
@@ -126,6 +126,42 @@ onMounted(async () => {
               <span class="contacts__icon pi pi-phone"></span>
             </a>
           </div>
+        </template>
+      </app-column>
+
+      <app-column header="Зарплатная вилка">
+        <template #body="{ data }">
+          <span v-if="!data.salaryFrom">Не заполнено</span>
+          <span v-else>{{ data.salaryFrom }} - {{ data.salaryTo }}</span>
+        </template>
+      </app-column>
+
+      <app-column header="Пройденные этапы">
+        <template #body="{ data }">
+          <span v-if="!data.stages">Не заполнено</span>
+
+          <div v-else class="interview-stages">
+            <app-badge
+              v-for="(stage, index) in data.stages"
+              :key="index"
+              :value="index + 1"
+              rounded
+              v-tooltip.top="stage.name"
+            />
+          </div>
+        </template>
+      </app-column>
+
+      <app-column header="Результат">
+        <template #body="{ data }">
+          <span v-if="!data.result">Не заполнено</span>
+
+          <template v-else>
+            <app-badge
+              :severity="data.result === 'Offer' ? 'success' : 'danger'"
+              :value="data.result === 'Offer' ? 'Оффер' : 'Отказ'"
+            />
+          </template>
         </template>
       </app-column>
 
@@ -171,5 +207,10 @@ onMounted(async () => {
 
 .contacts__phone {
   color: #371777;
+}
+
+.interview-stages {
+  display: flex;
+  gap: 5px;
 }
 </style>
