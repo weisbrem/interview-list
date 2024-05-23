@@ -17,6 +17,7 @@ import InputText from 'primevue/inputtext'
 import InputNumber from 'primevue/inputnumber'
 import Textarea from 'primevue/textarea'
 import Toast from 'primevue/toast'
+import Tooltip from 'primevue/tooltip'
 import ProgressSpinner from 'primevue/progressspinner'
 import Card from 'primevue/card'
 import DataTable from 'primevue/datatable'
@@ -25,6 +26,7 @@ import ConfirmDialog from 'primevue/confirmdialog'
 import InlineMessage from 'primevue/inlinemessage'
 import Calendar from 'primevue/calendar'
 import RadioButton from 'primevue/radiobutton'
+import Badge from 'primevue/badge'
 
 import App from './App.vue'
 import router from './router'
@@ -48,6 +50,8 @@ app.use(createPinia())
 app.use(router)
 app.use(PrimeVue)
 
+app.directive('tooltip', Tooltip)
+
 app.component('app-menubar', Menubar)
 app.component('app-button', Button)
 app.component('app-radio-button', RadioButton)
@@ -62,5 +66,6 @@ app.component('app-column', Column)
 app.component('app-confirm-dialog', ConfirmDialog)
 app.component('app-inline-message', InlineMessage)
 app.component('app-calendar', Calendar)
+app.component('app-badge', Badge)
 
 app.mount('#app')
